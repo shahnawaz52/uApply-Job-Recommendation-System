@@ -5,3 +5,6 @@ datasets
 generativeai
 streamlit
 python-dotenv
+evaluate 
+rouge_score 
+bitsandbytes
