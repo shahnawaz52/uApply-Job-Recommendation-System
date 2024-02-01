@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart ATS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Smart ATS</h1>
+            <p class="lead">Improve Your Resume ATS</p>
+        </div>
+        <form method="POST" enctype="multipart/form-data" action="/submit">
+            <div class="form-group">
+                <label for="jd">Paste the Job Description:</label>
+                <textarea class="form-control" id="jd" name="jd" rows="4" placeholder="Enter Job Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="resume">Upload Your Resume (PDF):</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="resume" name="resume" accept=".pdf">
+                    <label class="custom-file-label" for="resume">Choose file</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if response %}
+            <div class="mt-5">
+                <h2>Skills extracted from the resume:</h2>
+                <p class="lead">{{ skills }}</p>
+                <h2>Response from ATS:</h2>
+                <p class="lead">{{ response }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

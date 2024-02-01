@@ -2,3 +2,6 @@ pandas
 numpy
 langdetect
 datasets
+generativeai
+streamlit
+python-dotenv
