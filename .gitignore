@@ -4,5 +4,4 @@ saved_models
 .env
 client/node_modules
 client/.env
-backend
 notebooks
