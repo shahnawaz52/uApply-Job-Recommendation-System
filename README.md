@@ -1,5 +1,8 @@
 # uApply: Skill-based Job Recommendation System
 
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.loom.com/share/5bee8b72b9c94dd3b2f972963283c33e?sid=79e0c671-77e0-4cf2-a4cd-eac0bc7f6b14)
+
+
 ## Overview
 uApply is a skill-based job recommendation system designed to assist university students in finding employment opportunities aligned with their skills and interests. This project leverages machine learning, natural language processing (NLP), and large language models (LLM) to provide personalized job recommendations.
 
