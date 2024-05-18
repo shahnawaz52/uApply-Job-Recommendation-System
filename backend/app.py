@@ -17,7 +17,6 @@ app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 jwt = JWTManager(app)
 app.secret_key = 'testing'
-print('jwt----------------------->>>>', os.getenv('JWT_SECRET_KEY'))
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
 db = connect_to_mongodb()
@@ -50,12 +49,6 @@ def register():
         print(ent.text, ent.label_)
         if ent.label_ in ['ORG', 'PERSON', 'GPE']:
             skills.append(ent.text)
-
-
-    # pdf_file = request.files['file']
-    print('skills----------->>', skills)
-    print('tages----------------->>>', tags)
-
 
     # Check if user or email already exists
     user_found = records.find_one({"name": user})
@@ -97,7 +90,6 @@ def login():
 
     # Check if email exists in the database
     email_found = records.find_one({"email": email})
-    print('email_found------------>>>', email_found['email'])
     if email_found:
         email_val = email_found['email']
         firstname = email_found['firstname']
@@ -123,7 +115,6 @@ def login():
 @jwt_required()
 def logout():
     # current_user = get_jwt_identity()
-    # print('current_user-------------->>>', current_user)
     resp = jsonify({'message': 'Logout successful'})
     unset_jwt_cookies(resp)
     return resp, 200
@@ -133,16 +124,13 @@ def logout():
 # @cache.memoize(timeout=50)
 def get_recommended_jobs():
     current = get_jwt_identity()
-    # print('current----------->>', current)
     user_record = records.find_one({"email": current})
-    print('user_reord------------>>>', user_record)
     if not user_record:
         return jsonify({"message": "User not found"}), 404
 
     user_skills = user_record.get("skills", []) + user_record.get('tags', [])
     work_exp = user_record.get('work_experience', {})
     # user_skills = user_skills + work_exp.employerName + work_exp.position
-    # print('work_exp-------------->>>', user_skills)
 
     Fname = request.json.get('firstname')
     Lname = request.json.get('lastname')
@@ -155,25 +143,18 @@ def get_recommended_jobs():
     # ranks = search_jobs(prompt, embeddings_dataset, tokenizer, model, k=10)
     # using faiss
     ranks = search_jobs_faiss(prompt, ResourceManager.faiss_index, k=50)
-    print('ranks------------->>', ranks)
 
     # student_ranks = search_jobs_knn(prompt, k=30)
     student_ranks = search_students_jobs_faiss(prompt, ResourceManager.student_faiss_index, k=50)
-    print('student_ranks------------->>', student_ranks)
 
     job_ids = [job['job_id'] for job in job_posting.find({"job_id": {"$in": ranks.tolist()}})]
     jobs_data = list(job_posting.find({"job_id": {"$in": job_ids}}))
-
-    # selected_students = students[students["company_id"].isin(student_ranks)]
-    # students_data = selected_students.to_dict(orient="records")
-    # print('students_data---------------->>>', len(students_data))
 
     student_ids = student_ranks.tolist()
     selected_students = students[students["student_id"].isin(student_ids)]
     students_data = selected_students.to_dict(orient="records")
     # Filter out students with null company address
    
-
     response = {
         "jobs": [],
         "students": []
@@ -204,8 +185,6 @@ def get_recommended_jobs():
             "education": student.get('education_1', '')
             # Add other student fields as needed
         })
-
-    # print('response-------------->>>', response['students'])
 
     return jsonify(response)
     
@@ -250,7 +229,6 @@ def get_saved_jobs():
 
     # Fetch the user's saved job IDs from MongoDB
     user_saved_jobs = saved_jobs.find_one({"user_email": current_user_email})
-    print('user_saved_jobs----------->>>', user_saved_jobs)
 
     if not user_saved_jobs or "job_ids" not in user_saved_jobs or not user_saved_jobs["job_ids"]:
         return jsonify([]), 200
