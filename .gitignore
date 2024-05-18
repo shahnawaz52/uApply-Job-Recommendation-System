@@ -1,4 +1,8 @@
 src/data
 myenv
 saved_models
-env
+.env
+client/node_modules
+client/.env
+backend
+notebooks
