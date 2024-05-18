@@ -48,7 +48,22 @@ uApply addresses the challenges university students face in finding relevant job
    ```bash
    git clone https://github.com/shahnawaz52/uApply-Job-Recommendation-System.git
    cd uApply-Job-Recommendation-System
-2. Install backend dependencies: pip install -r requirements.txt
+2. Install backend dependencies:
+   ```bash
+   pip install -r requirements.txt
+3. Activate virtual environment:
+   ```bash
+   .\myenv\Scripts\activate
+4. Install frontend dependencies:
+   ```bash
+   npm install chakra-ui
+   npm install react-pdftotext
+5. Go to Client folder:
+   ```bash
+   npm start
+6. Go to backend folder:
+   ```bash
+   flask run
 
 
 ## Usage
